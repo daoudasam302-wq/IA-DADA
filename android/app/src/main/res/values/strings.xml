@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">DADA IA</string>
+    <string name="title_activity_main">DADA IA</string>
+    <string name="package_name">com.dadaia.studio</string>
+    <string name="custom_url_scheme">com.dadaia.studio</string>
+</resources>

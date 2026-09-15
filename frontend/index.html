@@ -1,0 +1,1078 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>DADA IA</title>
+  <meta name="theme-color" content="#05070b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="DADA IA">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/icons/dada-192.svg">
+  <style>
+    :root {
+      --bg: #05070b;
+      --bg-2: #0b1017;
+      --panel: rgba(15, 20, 28, 0.92);
+      --panel-strong: rgba(20, 25, 35, 0.98);
+      --line: rgba(255,255,255,0.08);
+      --line-strong: rgba(255,255,255,0.12);
+      --text: #f3f6fb;
+      --muted: #a6b2c2;
+      --silver: #dfe7f2;
+      --gold: #d7b56d;
+      --gold-soft: #f2d899;
+      --violet: #7c5cff;
+      --violet-soft: #a98bff;
+      --cyan: #84d9ff;
+      --shadow: 0 32px 80px rgba(0,0,0,0.58);
+      --radius: 26px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(124, 92, 255, 0.16), transparent 22%),
+        radial-gradient(circle at 80% 14%, rgba(132, 217, 255, 0.1), transparent 18%),
+        linear-gradient(180deg, #04060a 0%, #090d15 100%);
+    }
+
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(1200px, 92%);
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(5, 7, 11, 0.75);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--gold), var(--violet));
+      color: #0d1118;
+      font-weight: 900;
+      box-shadow: 0 18px 35px rgba(124, 92, 255, 0.35);
+    }
+
+    .top-badge {
+      padding: 8px 12px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.02);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 10px;
+    }
+
+    .logout-button {
+      border: 0;
+      padding: 0;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.82rem;
+    }
+
+    .logout-button:hover { color: var(--gold-soft); }
+
+    .user-label {
+      color: var(--silver);
+      font-size: 0.78rem;
+    }
+
+    .apk-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border: 1px solid rgba(215,181,109,0.35);
+      border-radius: 999px;
+      color: var(--gold-soft);
+      text-decoration: none;
+      font-size: 0.76rem;
+    }
+
+    .account-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(3, 5, 8, 0.82);
+      backdrop-filter: blur(18px);
+    }
+
+    .account-gate[hidden] { display: none; }
+
+    .account-card {
+      width: min(460px, 100%);
+      padding: 32px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(20, 26, 36, 0.98), rgba(10, 14, 20, 0.98));
+      box-shadow: 0 36px 100px rgba(0,0,0,0.7);
+    }
+
+    .account-card h2 {
+      margin: 0 0 10px;
+      font-size: 2rem;
+      letter-spacing: -0.06em;
+    }
+
+    .account-card p {
+      margin: 0 0 22px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .account-switch {
+      display: block;
+      margin-top: 16px;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      color: var(--gold-soft);
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.88rem;
+    }
+
+    .account-card .cta { margin-top: 22px; }
+
+    .account-status {
+      min-height: 22px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .top-nav a {
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .top-nav a:hover { color: var(--gold-soft); }
+
+    .hero {
+      padding: 56px 0 28px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.25fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .panel {
+      background: linear-gradient(180deg, rgba(16, 22, 31, 0.94), rgba(11, 16, 22, 0.96));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .form-panel {
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(124, 92, 255, 0.14), transparent 65%);
+      pointer-events: none;
+    }
+
+    .tag {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(215,181,109,0.35);
+      background: rgba(215,181,109,0.06);
+      color: var(--gold-soft);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 12px;
+      font-size: clamp(2.6rem, 4vw, 4.5rem);
+      line-height: 0.96;
+      letter-spacing: -0.08em;
+      text-wrap: balance;
+    }
+
+    .subtitle {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 24px;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 1.04rem;
+      max-width: 560px;
+    }
+
+    label {
+      position: relative;
+      z-index: 1;
+      display: block;
+      margin: 18px 0 8px;
+      color: var(--silver);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    textarea, input, select {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      background: rgba(4, 8, 12, 0.92);
+      color: var(--text);
+      padding: 14px 16px;
+      font: inherit;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    textarea:focus, input:focus, select:focus {
+      outline: none;
+      border-color: rgba(132, 217, 255, 0.9);
+      box-shadow: 0 0 0 4px rgba(132, 217, 255, 0.08);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .cta {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      margin-top: 22px;
+      border: 1px solid rgba(215,181,109,0.35);
+      border-radius: 16px;
+      padding: 16px 18px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #10151d;
+      background: linear-gradient(135deg, var(--gold-soft), var(--gold), var(--gold-soft));
+      cursor: pointer;
+      box-shadow: 0 18px 30px rgba(215, 181, 109, 0.18);
+      transition: transform 0.2s ease, filter 0.2s ease, opacity 0.2s ease;
+    }
+
+    .cta:hover { transform: translateY(-1px); filter: brightness(1.04); }
+    .cta:disabled { opacity: 0.7; cursor: wait; transform: none; }
+
+    .status {
+      position: relative;
+      z-index: 1;
+      margin-top: 14px;
+      min-height: 22px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .quota {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+    }
+
+    .preview-panel {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-height: 720px;
+      overflow: hidden;
+    }
+
+    .preview-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 4px 2px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .preview-box {
+      flex: 1;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background:
+        linear-gradient(135deg, rgba(124, 92, 255, 0.08), rgba(132, 217, 255, 0.03)),
+        rgba(8, 11, 16, 0.96);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      min-height: 610px;
+      position: relative;
+    }
+
+    .preview-box::before {
+      content: "";
+      position: absolute;
+      inset: 20px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.05);
+      pointer-events: none;
+    }
+
+    .preview-box p {
+      margin: 0;
+      max-width: 430px;
+      padding: 0 18px;
+      text-align: center;
+      line-height: 1.7;
+      color: var(--muted);
+      font-size: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .preview-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      position: relative;
+      z-index: 1;
+    }
+
+    .actions {
+      display: none;
+      gap: 12px;
+    }
+
+    .action-link {
+      flex: 1;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 48px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.02);
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .history {
+      margin: 18px auto 42px;
+    }
+
+    .history-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .history-head h2 {
+      margin: 0;
+      font-size: 1.7rem;
+      letter-spacing: -0.05em;
+    }
+
+    .history-head p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .history-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .history-empty {
+      grid-column: 1 / -1;
+      padding: 24px;
+      border: 1px dashed var(--line-strong);
+      border-radius: 18px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .history-item {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(13, 18, 25, 0.9);
+    }
+
+    .history-item img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      background: var(--bg-2);
+    }
+
+    .history-info { padding: 14px; }
+
+    .history-info strong {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 0.9rem;
+    }
+
+    .history-info small {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.76rem;
+    }
+
+    .history-links {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .history-links a {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      color: var(--silver);
+      font-size: 0.76rem;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin: 18px auto 40px;
+    }
+
+    .feature {
+      padding: 24px 20px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(16, 22, 29, 0.94), rgba(12, 16, 22, 0.96));
+      box-shadow: 0 18px 36px rgba(0,0,0,0.18);
+    }
+
+    .feature-icon {
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      margin-bottom: 16px;
+      font-size: 1.25rem;
+      background: linear-gradient(135deg, rgba(215,181,109,0.12), rgba(124,92,255,0.12));
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .feature h3 {
+      margin: 0 0 8px;
+      font-size: 1.08rem;
+    }
+
+    .feature p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.96rem;
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 18px;
+      align-items: stretch;
+      margin: 0 auto 42px;
+    }
+
+    .workflow-intro,
+    .workflow-steps {
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(13, 18, 25, 0.86);
+    }
+
+    .workflow-intro h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      line-height: 1;
+      letter-spacing: -0.06em;
+    }
+
+    .workflow-intro p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .workflow-steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .step {
+      padding: 16px;
+      border-left: 1px solid rgba(215,181,109,0.35);
+    }
+
+    .step-number {
+      display: block;
+      margin-bottom: 24px;
+      color: var(--gold-soft);
+      font-size: 0.76rem;
+      letter-spacing: 0.16em;
+    }
+
+    .step h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      padding: 24px 0 34px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .preview-panel { min-height: unset; }
+    }
+
+    @media (max-width: 700px) {
+      .topbar { flex-wrap: wrap; }
+      .top-nav { order: 3; width: 100%; justify-content: space-between; }
+      .features { grid-template-columns: 1fr; }
+      .row { grid-template-columns: 1fr; }
+      .preview-box { min-height: 440px; }
+      .workflow { grid-template-columns: 1fr; }
+      .workflow-steps { grid-template-columns: 1fr; }
+      .step { border-left: 0; border-top: 1px solid rgba(215,181,109,0.35); }
+      .step:first-child { border-top: 0; }
+      .footer-inner { flex-direction: column; }
+      .history-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 430px) {
+      .history-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="account-gate" class="account-gate">
+    <form id="account-form" class="account-card">
+      <div class="tag">Accès DADA IA</div>
+      <h2>Créez votre compte.</h2>
+      <p>Un compte est obligatoire pour accéder au studio et continuer vos créations.</p>
+
+      <label for="account-name">Nom</label>
+      <input id="account-name" type="text" autocomplete="name" placeholder="Votre nom" required>
+
+      <label for="account-email">Email</label>
+      <input id="account-email" type="email" autocomplete="email" placeholder="vous@exemple.com" required>
+
+      <label for="account-password">Mot de passe</label>
+      <input id="account-password" type="password" autocomplete="new-password" minlength="8" placeholder="8 caractères minimum" required>
+
+      <button id="account-submit" class="cta" type="submit">Créer mon compte</button>
+      <div id="account-status" class="account-status" aria-live="polite"></div>
+      <button id="account-switch" class="account-switch" type="button">J’ai déjà un compte</button>
+    </form>
+  </div>
+
+  <header>
+    <div class="container topbar">
+      <div class="brand">
+        <div class="brand-mark">D</div>
+        <span>DADA IA</span>
+      </div>
+      <nav class="top-nav" aria-label="Navigation principale">
+        <a href="#studio">Studio</a>
+        <a href="#methode">Méthode</a>
+        <a class="apk-link" href="/download/android" download="dada-ia.apk">⬇ APK Android</a>
+        <span id="user-label" class="user-label"></span>
+        <button id="logout" class="logout-button" type="button">Déconnexion</button>
+      </nav>
+      <div class="top-badge">AI Designer</div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="studio" class="hero">
+      <div class="hero-grid">
+        <div class="panel form-panel">
+          <div class="tag">Creative Engine</div>
+          <h1>Créez des visuels d’exception.</h1>
+          <p class="subtitle">
+            DADA IA transforme une idée en visuel premium, en affiche de marque ou en composition haut de gamme, prête à inspirer, convaincre et convertir.
+          </p>
+
+          <label for="prompt">Prompt</label>
+          <textarea id="prompt" placeholder="Ex. Affiche premium pour parfum de luxe, fond noir profond, détails dorés, composition minimaliste, lumière dramatique, rendu de studio professionnel..."></textarea>
+
+          <div class="row">
+            <div>
+              <label for="width">Largeur</label>
+              <input id="width" type="number" value="108" min="1" step="0.1">
+            </div>
+            <div>
+              <label for="height">Hauteur</label>
+              <input id="height" type="number" value="135" min="1" step="0.1">
+            </div>
+          </div>
+
+          <label for="dimension-unit">Unité</label>
+          <select id="dimension-unit" class="format-select">
+            <option value="cm">Centimètres (cm)</option>
+            <option value="mm" selected>Millimètres (mm)</option>
+          </select>
+          <div class="status">Conversion automatique à 300 DPI pour une qualité adaptée à l’impression.</div>
+
+          <label for="output-format">Format de sortie</label>
+          <select id="output-format" class="format-select">
+            <option value="png">PNG — retouchable dans Photoshop</option>
+            <option value="jpeg">JPEG — export aplati</option>
+            <option value="psd">PSD — calques Photoshop éditables</option>
+          </select>
+          <div id="format-help" class="status">Le PNG peut être retouché comme image dans Photoshop.</div>
+
+          <label for="title">Titre</label>
+          <input id="title" type="text" placeholder="ÉCLAT NOIR">
+
+          <label for="subtitle">Sous-titre</label>
+          <input id="subtitle" type="text" placeholder="Maison de création 2026">
+
+          <button id="generate" class="cta">Créer le visuel</button>
+          <div id="status" class="status" aria-live="polite"></div>
+          <div id="quota" class="quota" aria-live="polite"></div>
+        </div>
+
+        <div class="panel preview-panel">
+          <div class="preview-head">
+            <span>Preview</span>
+            <span>png / psd</span>
+          </div>
+
+          <div id="preview" class="preview-box">
+            <p>Votre rendu IA apparaîtra ici.</p>
+          </div>
+
+          <div id="actions" class="actions">
+            <a id="png" class="action-link" target="_blank" rel="noreferrer">Aperçu PNG</a>
+            <a id="psd" class="action-link" target="_blank" rel="noreferrer">Télécharger</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="history" aria-labelledby="history-title">
+      <div class="history-head">
+        <div>
+          <h2 id="history-title">Vos créations</h2>
+          <p>Retrouvez vos 30 dernières créations DADA IA.</p>
+        </div>
+      </div>
+      <div id="history-grid" class="history-grid">
+        <div class="history-empty">Chargement de votre historique...</div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <h3>Génération immédiate</h3>
+        <p>Transformez un brief en visuel premium en quelques secondes, sans perdre de temps.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🎨</div>
+        <h3>Style de marque</h3>
+        <p>Contrôlez la direction artistique, la lumière, la composition et l’impression générale.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🧩</div>
+        <h3>Sortie exploitable</h3>
+        <p>Récupérez un visuel prêt à l’emploi et une version PSD pour affiner la finition.</p>
+      </div>
+    </section>
+
+    <section id="methode" class="workflow">
+      <div class="workflow-intro">
+        <div class="tag">La méthode DADA</div>
+        <h2>Une idée. Une direction. Un rendu.</h2>
+        <p>Chaque génération commence par une intention claire et se termine par une matière visuelle prête à travailler.</p>
+      </div>
+      <div class="workflow-steps">
+        <div class="step">
+          <span class="step-number">01 / BRIEF</span>
+          <h3>Décrivez</h3>
+          <p>Posez l’univers, l’ambiance et le message à transmettre.</p>
+        </div>
+        <div class="step">
+          <span class="step-number">02 / CRÉATION</span>
+          <h3>Générez</h3>
+          <p>L’IA compose une première direction visuelle en quelques instants.</p>
+        </div>
+        <div class="step">
+          <span class="step-number">03 / FINITION</span>
+          <h3>Affinez</h3>
+          <p>Récupérez le PNG ou poursuivez le travail dans le fichier PSD.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>DADA IA / Creative visual intelligence</span>
+      <span>© 2026 DADA IA</span>
+    </div>
+  </footer>
+
+  <script src="mobile-config.js"></script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const apiUrl = (path) => `${window.DADA_API_URL || ""}${path}`;
+
+    const ensureApiIsConfigured = () => {
+      if (window.location.protocol === "capacitor:" && window.DADA_API_URL === "https://api.example.com") {
+        throw new Error("URL de l’API non configurée dans mobile-config.js.");
+      }
+    };
+
+    const readApiResponse = async (response) => {
+      const body = await response.text();
+      if (!body.trim()) {
+        return { detail: `Réponse vide du serveur (${response.status}).` };
+      }
+      try {
+        return JSON.parse(body);
+      } catch (error) {
+        return { detail: body.slice(0, 240) };
+      }
+    };
+
+    if ("serviceWorker" in navigator && window.location.protocol !== "capacitor:") {
+      window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js"));
+    }
+
+    const accountGate = $("account-gate");
+    const accountForm = $("account-form");
+    const accountSwitch = $("account-switch");
+    let accountMode = "create";
+
+    const formatHelp = {
+      png: "Le PNG peut être retouché comme image dans Photoshop.",
+      jpeg: "Le JPEG est un export aplati : il ne conserve pas de structure de calques.",
+      psd: "Le PSD conserve une composition en calques pour la finition dans Photoshop."
+    };
+
+    const dimensionsToPixels = (value, unit) => {
+      const inches = unit === "cm" ? value / 2.54 : value / 25.4;
+      return Math.round(inches * 300);
+    };
+
+    const escapeHtml = (value) => String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+
+    const loadHistory = async () => {
+      const grid = $("history-grid");
+      try {
+        const response = await fetch(apiUrl("/api/projects"), { credentials: "include" });
+        if (!response.ok) throw new Error("Historique indisponible");
+        const projects = await response.json();
+        if (!projects.length) {
+          grid.innerHTML = '<div class="history-empty">Vos prochaines créations apparaîtront ici.</div>';
+          return;
+        }
+        grid.innerHTML = projects.map((project) => `
+          <article class="history-item">
+            <img src="${project.preview}" alt="Création DADA IA">
+            <div class="history-info">
+              <strong>${escapeHtml(project.title || "Création sans titre")}</strong>
+              <small>${project.width} × ${project.height} · ${project.format.toUpperCase()}</small>
+              <div class="history-links">
+                <a href="${project.preview}" target="_blank" rel="noreferrer">Aperçu</a>
+                <a href="${project.download}" target="_blank" rel="noreferrer">${project.format.toUpperCase()}</a>
+              </div>
+            </div>
+          </article>
+        `).join("");
+      } catch (error) {
+        grid.innerHTML = '<div class="history-empty">Impossible de charger votre historique.</div>';
+      }
+    };
+
+    const loadQuota = async () => {
+      try {
+        const response = await fetch(apiUrl("/api/usage"), { credentials: "include" });
+        if (!response.ok) return;
+        const usage = await response.json();
+        $("quota").textContent = `${usage.remaining} génération(s) restante(s) aujourd’hui`;
+      } catch (error) {
+        $("quota").textContent = "Quota indisponible";
+      }
+    };
+
+    const loadUser = async () => {
+      try {
+        const response = await fetch(apiUrl("/api/me"), { credentials: "include" });
+        if (!response.ok) return;
+        const user = await response.json();
+        $("user-label").textContent = user.name;
+      } catch (error) {
+        $("user-label").textContent = "";
+      }
+    };
+
+    const updateAccountMode = () => {
+      const creating = accountMode === "create";
+      const nameInput = $("account-name");
+      nameInput.parentElement.querySelector("label").hidden = !creating;
+      nameInput.hidden = !creating;
+      nameInput.required = creating;
+      nameInput.disabled = !creating;
+      $("account-password").autocomplete = creating ? "new-password" : "current-password";
+      $("account-submit").textContent = creating ? "Créer mon compte" : "Se connecter";
+      accountSwitch.textContent = creating ? "J’ai déjà un compte" : "Créer un nouveau compte";
+      $("account-status").textContent = "";
+    };
+
+    const showStudio = () => {
+      accountGate.hidden = true;
+      document.body.style.overflow = "auto";
+      loadHistory();
+      loadQuota();
+      loadUser();
+    };
+
+    const checkAccount = async () => {
+      try {
+        const response = await fetch(apiUrl("/api/me"), { credentials: "include" });
+        if (response.ok) {
+          showStudio();
+          return;
+        }
+      } catch (error) {
+        $("account-status").textContent = "Serveur indisponible. Réessayez dans un instant.";
+      }
+      document.body.style.overflow = "hidden";
+    };
+
+    accountForm.onsubmit = async (event) => {
+      event.preventDefault();
+      const submit = $("account-submit");
+      const status = $("account-status");
+      submit.disabled = true;
+      status.textContent = "Création du compte...";
+
+      try {
+        ensureApiIsConfigured();
+        const endpoint = accountMode === "create" ? "/api/account" : "/api/login";
+        const payload = accountMode === "create"
+          ? {
+              name: $("account-name").value,
+              email: $("account-email").value,
+              password: $("account-password").value
+            }
+          : {
+              email: $("account-email").value,
+              password: $("account-password").value
+            };
+        const response = await fetch(apiUrl(endpoint), {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await readApiResponse(response);
+        if (!response.ok) {
+          const detail = Array.isArray(data.detail) ? data.detail[0].msg : data.detail;
+          if (response.status === 405) {
+            throw new Error("Cette URL ne correspond pas au serveur API DADA IA. Utilisez l’URL FastAPI, pas un site statique.");
+          }
+          throw new Error(detail || "Impossible de créer le compte.");
+        }
+        showStudio();
+      } catch (error) {
+        status.textContent = error instanceof TypeError
+          ? "❌ Serveur inaccessible ou CORS non configuré. Vérifiez l’URL de l’API."
+          : "❌ " + error.message;
+      } finally {
+        submit.disabled = false;
+      }
+    };
+
+    accountSwitch.onclick = () => {
+      accountMode = accountMode === "create" ? "login" : "create";
+      updateAccountMode();
+    };
+
+    $("output-format").onchange = (event) => {
+      $("format-help").textContent = formatHelp[event.target.value];
+    };
+
+    $("logout").onclick = async () => {
+      await fetch(apiUrl("/api/logout"), { method: "POST", credentials: "include" });
+      accountMode = "login";
+      accountGate.hidden = false;
+      $("user-label").textContent = "";
+      updateAccountMode();
+      document.body.style.overflow = "hidden";
+    };
+
+    updateAccountMode();
+
+    checkAccount();
+
+    $("generate").onclick = async () => {
+      const btn = $("generate");
+      const status = $("status");
+      const preview = $("preview");
+
+      btn.disabled = true;
+      status.textContent = "Génération en cours...";
+
+      try {
+        ensureApiIsConfigured();
+        const dimensionUnit = $("dimension-unit").value;
+        const widthPixels = dimensionsToPixels(Number($("width").value), dimensionUnit);
+        const heightPixels = dimensionsToPixels(Number($("height").value), dimensionUnit);
+        if (!Number.isFinite(widthPixels) || !Number.isFinite(heightPixels) || widthPixels < 512 || heightPixels < 512 || widthPixels > 4096 || heightPixels > 4096) {
+          throw new Error("Les dimensions doivent produire une image entre 512 et 4096 pixels.");
+        }
+        const response = await fetch(apiUrl("/api/generate"), {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            prompt: $("prompt").value,
+            width: widthPixels,
+            height: heightPixels,
+            title: $("title").value,
+            subtitle: $("subtitle").value,
+            output_format: $("output-format").value
+          })
+        });
+
+        const data = await readApiResponse(response);
+        if (!response.ok) {
+          throw new Error(data.detail || "Une erreur est survenue.");
+        }
+
+        preview.innerHTML = `<img src="${data.preview}" alt="Visual généré">`;
+        $("png").href = data.preview;
+        $("psd").href = data.download;
+        $("psd").textContent = "Télécharger " + data.format.toUpperCase();
+        $("actions").style.display = "flex";
+        status.textContent = data.message;
+        loadHistory();
+        loadQuota();
+      } catch (error) {
+        status.textContent = "❌ " + error.message;
+      } finally {
+        btn.disabled = false;
+      }
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build Android debug APK",
+			"type": "shell",
+			"command": "$env:JAVA_HOME='C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.12.101-hotspot'; $env:Path=\"$env:JAVA_HOME\\bin;$env:Path\"; cmd.exe /c \"cd android && gradlew.bat assembleDebug --no-daemon\"",
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Build Android debug APK corrected",
+			"type": "shell",
+			"command": "cmd.exe /c \"set JAVA_HOME=C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.12.101-hotspot&& set PATH=%JAVA_HOME%\\bin;%PATH%&& cd android&& gradlew.bat assembleDebug --no-daemon\"",
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Build Android debug APK final",
+			"type": "shell",
+			"command": "cmd.exe /c 'set JAVA_HOME=C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.12.101-hotspot && set PATH=%JAVA_HOME%\\bin;%PATH% && cd android && gradlew.bat assembleDebug --no-daemon'",
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Build Android debug APK verified",
+			"type": "shell",
+			"command": "cmd.exe /c 'set \"JAVA_HOME=C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.12.101-hotspot\" && set \"PATH=%JAVA_HOME%\\bin;%PATH%\" && cd android && gradlew.bat assembleDebug --no-daemon'",
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Build Android debug APK exact environment",
+			"type": "shell",
+			"command": "cmd.exe /c `\"set `\"JAVA_HOME=C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.12.101-hotspot`\" && set `\"PATH=%JAVA_HOME%\\bin;%PATH%`\" && cd android && gradlew.bat assembleDebug --no-daemon`\"",
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Build Android debug APK command",
+			"type": "shell",
+			"command": "$command = 'set \"JAVA_HOME=C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.12.101-hotspot\" && set \"PATH=%JAVA_HOME%\\bin;%PATH%\" && cd android && gradlew.bat assembleDebug --no-daemon'; cmd.exe /c $command",
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Resolve Java short path",
+			"type": "shell",
+			"command": "cmd.exe /c 'for %I in (\"C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.12.101-hotspot\") do @echo %~sI'",
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Build Android debug APK requested",
+			"type": "shell",
+			"command": "$env:JAVA_HOME='C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.12.101-hotspot'; $env:Path=\"${env:JAVA_HOME}\\bin;${env:Path}\"; cmd.exe /c 'cd android && gradlew.bat assembleDebug --no-daemon'; $exitCode=$LASTEXITCODE; $apk='android/app/build/outputs/apk/debug/app-debug.apk'; Write-Output \"EXIT_CODE=$exitCode\"; if (Test-Path $apk) { $file=Get-Item $apk; Write-Output \"APK_PATH=$($file.FullName)\"; Write-Output \"APK_SIZE_BYTES=$($file.Length)\" } else { Write-Output \"APK_NOT_FOUND=$apk\" }; exit $exitCode",
+			"isBackground": false,
+			"problemMatcher": []
+		}
+	]
+}
