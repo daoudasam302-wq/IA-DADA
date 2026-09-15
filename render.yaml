@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: dada-ia
+    runtime: python
+    plan: free
+
+    buildCommand: pip install -r requirements.txt
+
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+
+      - key: OPENAI_IMAGE_MODEL
+        value: gpt-image-1
+
+      - key: DATABASE_URL
+        value: sqlite:///./dada.db
+
+      - key: DAILY_FREE_GENERATIONS
+        value: "10"

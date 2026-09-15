@@ -1,0 +1,15 @@
+.env
+dada.db
+*.log
+*.tmp.log
+__pycache__/
+*.pyc
+outputs/
+uploads/
+.venv/
+venv/
+.gradle/
+.idea/
+android/local.properties
+android/app/build/
+android/build/
