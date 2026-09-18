@@ -4,3 +4,4 @@ python-dotenv
 openai
 Pillow
 psd-tools
+psycopg[binary]
